@@ -1,0 +1,14 @@
+{
+  "name": "android-udmserver",
+  "version": "0.0.0",
+  "description": "AndroidUDMServer",
+  "main": "app.js",
+  "author": {
+    "name": "Choi"
+  },
+  "dependencies": {
+    "date-utils": "^1.2.21",
+    "express": "^4.16.4",
+    "pg": "^7.8.0"
+  }
+}
