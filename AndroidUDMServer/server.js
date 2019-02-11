@@ -207,9 +207,9 @@ app.get('/date_chart', (req, res) => {
 			'select to_char(tsstart,\'DD\') as date ' +
 			', floor(avg(iokcount * 100 * icriteria / noperationtime)) as oee ' +
 			'from tbl_oee '+
-			' where tsend  ::text like  \'' + req.query.month + '%\''+
-			' and slineid = \'' + req.query.chart_line + '\'' +
-			'  and scartype = \'' + req.query.chart_car + '\'' +
+			' where tsend  ::text like  \''+req.query.month + '%\''+
+			' and slineid = \''+req.query.chart_line + '\'' +
+			'  and scartype = \''+req.query.chart_car + '\'' +
 			'group by date order by date '
 			
 			, function (err, result) {
@@ -223,7 +223,7 @@ app.get('/date_chart', (req, res) => {
 
 });
 
- //test 
+/*
 app.get('/date_test', (req, res) => {
 	obj = new Object();
 	udm.connect(function (err, client, done) {
@@ -231,9 +231,9 @@ app.get('/date_test', (req, res) => {
 			'select to_char(tsstart,\'DD\') as date ' +
 			', floor(avg(iokcount * 100 * icriteria / noperationtime)) as oee ' +
 			'from tbl_oee ' +
-			' where tsend  ::text like  \'2018-11%\'' +
-			' and slineid = \' RR_AJAR_KEY'\' +
-			'  and scartype = \'' + req.query.chart_car + '\'' +
+			' where tsend  ::TEXT like  \'2018-11%\' ' +
+			' and slineid = \'677673DE-1\' ' + 
+			'  and scartype = \'RR_AJAR_KEY\' ' +
 			'group by date order by date '
 
 			, function (err, result) {
@@ -246,3 +246,48 @@ app.get('/date_test', (req, res) => {
 	});
 
 });
+*/
+
+app.get('/Monthlyclick', (req, res) => {
+	obj = new Object();
+	udm.connect(function (err, client, done) {
+		client.query(         
+			'select tsstart, tsend, itargetcount, itotalcount, iokcount, ingcount ' +
+			'from tbl_oee ' +
+			' where tsend ::text like  \'' + req.query.line_month_date + '%\' ' +
+			' and slineid = \'' + req.query.line_month_name + '\' ' +
+			'  and scartype = \'' + req.query.line_month_car + '\' ' +
+			'order by tsstart'
+
+			, function (err, result) {
+				done();
+				obj.code = "Monthlyclick";
+				obj.data = result.rows;
+				res.send(JSON.stringify(obj));
+				console.log('/Monthlyclick');   //test ¿ë
+			});
+	});
+
+});
+
+app.get('/month_click_test', (req, res) => {
+	obj = new Object();
+	udm.connect(function (err, client, done) {
+		client.query(
+			'select tsstart, tsend, itargetcount, itotalcount, iokcount, ingcount ' +
+			'from tbl_oee ' +
+			'where tsend :: TEXT like  \'2018-11-15%\' '+
+			'and scartype = \'RR_AJAR_KEY\' '+
+			'and slineid = \'677673DE-1\' '+
+			'order by tsstart '
+			, function (err, result) {
+				done();
+				obj.code = "month_click_test";
+				obj.data = result.rows;
+				res.send(JSON.stringify(obj));
+				console.log('/month_click_test');   //test ¿ë
+			});
+	});
+
+});
+
